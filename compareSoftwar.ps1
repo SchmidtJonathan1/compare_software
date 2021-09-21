@@ -9,26 +9,21 @@ $CustomObjs += New-Object -TypeName psobject -Property @{Name="draw.io 15.2.7"; 
 $CustomObjs += New-Object -TypeName psobject -Property @{Name="MobaXterm"; Version="21.3.0.4736"; 'InstallationFoundx86'= $null; 'InstallationFoundx64' = $null; 'needToUpdate' = $null}
 
 foreach($CustomObj in $CustomObjs){
-  $CustomObj.InstallationFoundx86 = $false
-     foreach($Pathx86Obj in $Pathx86Objs){
-        if($Pathx86Obj.DisplayName -eq $CustomObj.Name){
-            $CustomObj.InstallationFoundx86 = $true
-            if($Pathx86Obj.DisplayVersion -lt $CustomObj.Version){
-                $CustomObj.needToUpdate = $true
-            }
+  foreach($Pathx86Obj in $Pathx86Objs){
+    if($Pathx86Obj.DisplayName -eq $CustomObj.Name){
+        $CustomObj.InstallationFoundx86 = $true
+        if($Pathx86Obj.DisplayVersion -lt $CustomObj.Version){
+            $CustomObj.needToUpdate = $true
         }
+    }
   }
-
-  $CustomObj.InstallationFoundx64 = $false
-     foreach($Pathx64Obj in $Pathx64Objs){
-        if($Pathx64Obj.DisplayName -eq $CustomObj.Name){
-            $CustomObj.InstallationFoundx64 = $true
-            if($Pathx64Obj.DisplayVersion -lt $CustomObj.Version){
-                $CustomObj.needToUpdate = $true
-            }
+  foreach($Pathx64Obj in $Pathx64Objs){
+    if($Pathx64Obj.DisplayName -eq $CustomObj.Name){
+        $CustomObj.InstallationFoundx64 = $true
+        if($Pathx64Obj.DisplayVersion -lt $CustomObj.Version){
+            $CustomObj.needToUpdate = $true
         }
      }
-
+   }
   $CustomObj
-
 }
