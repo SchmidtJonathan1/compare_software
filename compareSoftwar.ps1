@@ -1,6 +1,7 @@
 ## Set variable
 $Pathx86Objs = Get-ItemProperty 'HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*'
 $Pathx64Objs = Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*'
+#Set yout software installpath
 $InstallPath = Get-ChildItem -Path "C:\tmp\"
 
 ## Set hashtable
@@ -40,11 +41,8 @@ foreach($CustomObj in $CustomObjs){
         $SplitName = ($CustomObjName -split ' ')[0]
         foreach($Installpathobj in $InstallPath){
             if($InstallPathObj.BaseName.Contains($SplitName) -and ($CustomObj.NeedToUpdate -eq $true)){
-                #$CustomObj.InstallParam
-                #$FileInstall = $InstallPathObj.FullName
                 Start-Process -FilePath $InstallPathObj.FullName -ArgumentList $CustomObj.InstallParam
                 Write-Host "$SplitName installed" -ForegroundColor Green
-                #return $true
             }
         }
     }
