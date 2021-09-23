@@ -8,10 +8,8 @@ $InstallPath = Get-ChildItem -Path "C:\tmp\"
 # Set your Software Name, Version and InstallationParam.
 $CustomObjs = @()
 $CustomObjs += New-Object -TypeName psobject -Property @{'Name'="KeePass Password Safe 2.47"; 'Version'="2.49"; 'InstallationFoundx86'= $null; 'InstallationFoundx64' = $null; 'NeedToUpdate' = $null; 'InstallParam'="/VERYSILENT"}
-$CustomObjs += New-Object -TypeName psobject -Property @{'Name'="Mozilla Maintenance Service"; 'Version'="92.0"; 'InstallationFoundx86'= $null; 'InstallationFoundx64' = $null; 'NeedToUpdate' = $null; 'InstallParam'="/VERYSILENT"}
-$CustomObjs += New-Object -TypeName psobject -Property @{'Name'="Mozilla Firefox (x64 en-US)"; 'Version'="92.0"; 'InstallationFoundx86'= $null; 'InstallationFoundx64' = $null; 'NeedToUpdate' = $null; 'InstallParam'="/VERYSILENT"}
-$CustomObjs += New-Object -TypeName psobject -Property @{'Name'="draw.io 15.2.7"; 'Version'="15.2.7"; 'InstallationFoundx86'= $null; 'InstallationFoundx64' = $null; 'NeedToUpdate' = $null; 'InstallParam'="/VERYSILENT"}
-$CustomObjs += New-Object -TypeName psobject -Property @{'Name'="MobaXterm"; 'Version'="21.3.0.4736"; 'InstallationFoundx86'= $null; 'InstallationFoundx64' = $null; 'NeedToUpdate' = $null; 'InstallParam'="/VERYSILENT"}
+$CustomObjs += New-Object -TypeName psobject -Property @{'Name'="Mozilla Firefox (x64 en-US)"; 'Version'="92.0"; 'InstallationFoundx86'= $null; 'InstallationFoundx64' = $null; 'NeedToUpdate' = $null; 'InstallParam'="/SILENT"}
+$CustomObjs += New-Object -TypeName psobject -Property @{'Name'="MobaXterm"; 'Version'="21.3.0.4736"; 'InstallationFoundx86'= $null; 'InstallationFoundx64' = $null; 'NeedToUpdate' = $null; 'InstallParam'="/quiet"}
 
 ## Play Code (Check if installation found x86 and x64)
 foreach($CustomObj in $CustomObjs){
