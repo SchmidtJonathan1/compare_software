@@ -2,7 +2,7 @@
 param([Parameter(Mandatory)][string]$SoftwareName, 
       [Parameter(Mandatory)][string]$SoftwareVersion, 
       [Parameter(Mandatory)][string]$SoftwareParam,
-      [Parameter(Mandatory)][string]$SoftwareParam)
+      [Parameter(Mandatory)][string]$FolderPath)
 
 ## Set variable
 # Regpath
