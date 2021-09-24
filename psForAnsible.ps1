@@ -62,7 +62,7 @@ foreach($CustomObj in $CustomObjs){
         $SplitName = ($CustomObjName -split ' ')[0]
         foreach($Installpathobj in $InstallPath){
             if($InstallPathObj.BaseName.Contains($SplitName) -and ($CustomObj.NeedToUpdate -eq $true)){
-                #Start-Process -FilePath $InstallPathObj.FullName -ArgumentList $CustomObj.InstallParam
+                Start-Process -FilePath $InstallPathObj.FullName -ArgumentList $CustomObj.InstallParam
                 Write-Host "$SplitName installed" -ForegroundColor Green
             }
         }
