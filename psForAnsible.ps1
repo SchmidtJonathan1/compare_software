@@ -20,16 +20,20 @@ $CustomObjs = @()
 # Split name and get real name from registry
 $SplitName = ($SoftwareName -split ' ')[0]
 foreach($Pathx86Obj in $Pathx86Objs){
-    if($Pathx86Obj.DisplayName.Contains($SplitName)){         
-        $CheckRegName86 = $Pathx86Obj.DisplayName
-        $CustomObjs += New-Object -TypeName psobject -Property @{'Name'=$CheckRegName86 ; 'Version'=$SoftwareVersion; 'InstallationFoundx86'= $null; 'InstallationFoundx64' = $null; 'NeedToUpdate' = $null; 'InstallParam'=$SoftwareParam}
+    if($Pathx86Obj.DisplayName -ne $null){
+        if($Pathx86Obj.DisplayName.Contains($SplitName)){         
+            $CheckRegName86 = $Pathx86Obj.DisplayName
+            $CustomObjs += New-Object -TypeName psobject -Property @{'Name'=$CheckRegName86 ; 'Version'=$SoftwareVersion; 'InstallationFoundx86'= $null; 'InstallationFoundx64' = $null; 'NeedToUpdate' = $null; 'InstallParam'=$SoftwareParam}
+        }
     }
 }
 
 foreach($Pathx64Obj in $Pathx64Objs){
-    if($Pathx64Obj.DisplayName.Contains($SplitName)){     
-        $CheckRegName64 = $Pathx64Obj.DisplayName
-        $CustomObjs += New-Object -TypeName psobject -Property @{'Name'=$CheckRegName64 ; 'Version'=$SoftwareVersion; 'InstallationFoundx86'= $null; 'InstallationFoundx64' = $null; 'NeedToUpdate' = $null; 'InstallParam'=$SoftwareParam}
+    if($Pathx64Obj.DisplayName -ne $null){
+        if($Pathx64Obj.DisplayName.Contains($SplitName)){     
+            $CheckRegName64 = $Pathx64Obj.DisplayName
+            $CustomObjs += New-Object -TypeName psobject -Property @{'Name'=$CheckRegName64 ; 'Version'=$SoftwareVersion; 'InstallationFoundx86'= $null; 'InstallationFoundx64' = $null; 'NeedToUpdate' = $null; 'InstallParam'=$SoftwareParam}
+        }
     }
 }
 
