@@ -24,7 +24,6 @@ foreach($CustomObj in $CustomObjs){
      }
     $CustomObj.InstallationFoundx64 = $false
         foreach($Pathx64Obj in $Pathx64Objs){
-            $SplitName = ($CustomObjs.Name -split ' ')[0]
             if($Pathx64Obj.DisplayName -eq $CustomObj.Name){
                 $CustomObj.InstallationFoundx64 = $true
                 if($Pathx64Obj.DisplayVersion -lt $CustomObj.Version){
