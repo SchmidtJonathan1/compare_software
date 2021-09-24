@@ -1,6 +1,7 @@
 ## Set parameter mandatory
 param([Parameter(Mandatory)][string]$SoftwareName, 
       [Parameter(Mandatory)][string]$SoftwareVersion, 
+      [Parameter(Mandatory)][string]$SoftwareParam,
       [Parameter(Mandatory)][string]$SoftwareParam)
 
 ## Set variable
@@ -9,7 +10,7 @@ $Pathx86Objs = Get-ItemProperty -Path 'HKLM:\SOFTWARE\WOW6432Node\Microsoft\Wind
 $Pathx64Objs = Get-ItemProperty 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*'
 
 #Set yout software installpath
-$InstallPath = Get-ChildItem -Path "C:\tmp\"
+$InstallPath = Get-ChildItem -Path $FolderPath
 
 ## Set hashtable
 # Set your Software Name, Version and InstallationParam.
