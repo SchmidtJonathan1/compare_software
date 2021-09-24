@@ -20,7 +20,7 @@ $CustomObjs = @()
 # Split name and get real name from registry
 $SplitName = ($SoftwareName -split ' ')[0]
 foreach($Pathx86Obj in $Pathx86Objs){
-    if($Pathx86Obj.DisplayName -ne $null){
+    if($null -ne $Pathx86Obj.DisplayName){
         if($Pathx86Obj.DisplayName.Contains($SplitName)){         
             $CheckRegName86 = $Pathx86Obj.DisplayName
             $CustomObjs += New-Object -TypeName psobject -Property @{'Name'=$CheckRegName86 ; 'Version'=$SoftwareVersion; 'InstallationFoundx86'= $null; 'InstallationFoundx64' = $null; 'NeedToUpdate' = $null; 'InstallParam'=$SoftwareParam}
@@ -29,7 +29,7 @@ foreach($Pathx86Obj in $Pathx86Objs){
 }
 
 foreach($Pathx64Obj in $Pathx64Objs){
-    if($Pathx64Obj.DisplayName -ne $null){
+    if($null -ne $Pathx64Obj.DisplayName){
         if($Pathx64Obj.DisplayName.Contains($SplitName)){     
             $CheckRegName64 = $Pathx64Obj.DisplayName
             $CustomObjs += New-Object -TypeName psobject -Property @{'Name'=$CheckRegName64 ; 'Version'=$SoftwareVersion; 'InstallationFoundx86'= $null; 'InstallationFoundx64' = $null; 'NeedToUpdate' = $null; 'InstallParam'=$SoftwareParam}
@@ -66,7 +66,7 @@ foreach($CustomObj in $CustomObjs){
         $SplitName = ($CustomObjName -split ' ')[0]
         foreach($Installpathobj in $InstallPath){
             if($InstallPathObj.BaseName.Contains($SplitName) -and ($CustomObj.NeedToUpdate -eq $true)){
-                #Start-Process -FilePath $InstallPathObj.FullName -ArgumentList $CustomObj.InstallParam
+                Start-Process -FilePath $InstallPathObj.FullName -ArgumentList $CustomObj.InstallParam
                 Write-Host "$SplitName installed" -ForegroundColor Green
             }
         }
