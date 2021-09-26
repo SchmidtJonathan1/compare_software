@@ -1,0 +1,42 @@
+# /roles/test/tasks/base.yml
+---
+#- name: includ vars
+#  include_vars: vars.yml
+
+#- name: copy ps to temp
+#  ansible.builtin.copy:
+#    src: InstallOneWithSplit.ps1
+#    dest: C:\tmp\InstallOneWithSplit.ps1
+
+#- name: run loop ps script
+#  ansible.windows.win_shell: "C:\\tmp\\InstallOneWithSplit.ps1 -SoftwareName {{ item.softwareName }} -SoftwareVersion {{ item.softwareVersion }} -SoftwareParam {{ item.softwareParam }} -FolderPath C:\\tmp\\"
+#  loop: "{{ apps }}"
+#  register: shellOut
+
+- name: Obtain information about a registry key using short form
+  ansible.windows.win_reg_stat:
+    path: 'HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\'
+  register: check_key32
+
+- name: Obtain information about a registry key using short form
+  ansible.windows.win_reg_stat:
+    path: 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\'
+  register: check_key64
+
+- name: out
+  debug:
+    msg: "{{ check_key32.sub_keys + check_key64.sub_keys}}"
+
+#- name: install 
+#  ansible.windows.win_package:
+#    path: C:\tmp\KeePass-2.49-Setup.exe
+#    product_id: KeePassPasswordSafe2_is1
+#    arguments: /VERYSILENT
+#    creates_path: "C:\\Program Files\\KeePass Password Safe 2\\KeePass.exe"
+#    creates_version: "2.49"
+#    state: present
+
+#- name: out
+#  debug:
+#    msg: "{{ fil }}"
+...
