@@ -1,3 +1,18 @@
+---
+apps:
+  - softwareName: KeePass
+    softwareVersion: 2.49
+    softwareParam: /VERYSILENT
+    folderPath: C:\tmp
+  #- softwareName: Adobe
+  #  softwareVersion: 12
+  #  softwareParam: /qn
+  #  folderPath: c:\tmp\
+  #- softwareName: Tschaka
+  #  softwareVersion: 33
+  #  softwareParam: /SILENT
+  #  folderPath: c:\tmp\
+
 # /roles/test/tasks/base.yml
 ---
 #- name: includ vars
