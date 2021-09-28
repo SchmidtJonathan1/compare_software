@@ -1,4 +1,4 @@
-###### Not finished WIP ######
+###### WIP (install software) ######
 
 ## Install windows software with ansible x86
 # ./roles/test/vars/vars.yml
