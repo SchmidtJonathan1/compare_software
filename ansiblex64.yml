@@ -1,0 +1,57 @@
+# ./roles/test/vars/vars.yml
+---
+apps:
+  - softwareName: KeePass
+    softwareVersion: "2.49"
+    softwareParam: /VERYSILENT
+    folderPath: C:\tmp
+  - softwareName: Firefox
+    softwareVersion: "92.0"
+    softwareParam: /qn
+    folderPath: c:\tmp\
+  - softwareName: draw.io
+    softwareVersion: "15.2.7"
+    softwareParam: /SILENT
+    folderPath: c:\tmp\
+
+# ./roles/test/tasks/base.yml
+---
+## Include vars from role path
+- name: includ vars
+  include_vars: vars.yml
+
+## Get all PSChildName names from registry
+- name: reg displayname x64
+  ansible.windows.win_shell: (Get-ItemProperty -Path HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\*).PSChildName
+  register: checkChildNamex64
+
+## Loop registry with pschildnames
+- name: reg displayversion x64
+  ansible.windows.win_reg_stat: 
+    path: HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\{{ item }}
+  loop: "{{ checkChildNamex64.stdout_lines }}"
+  register: checkVerx64
+
+## Set facts for name and version
+- name: msg x64 DisplayName and Version
+  set_fact:
+    regListx64: "{{ regListx64| default ([]) + [item.properties.DisplayName.value + ' ' + item.properties.DisplayVersion.value] }}"
+  when: item.properties.DisplayName.value is defined
+  loop: "{{ checkVerx64.results }} "
+
+## Install software
+- name: Install software x64
+  debug:
+    msg: "Work Twerk x64"
+#  ansible.windows.win_package:
+#    path: C:\tmp\KeePass-2.49-Setup.exe
+#    product_id: KeePassPasswordSafe2_is1
+#    arguments: /VERYSILENT
+#    creates_path: "C:\\Program Files\\KeePass Password Safe 2\\KeePass.exe"
+#    creates_version: "2.49"
+#    state: present
+  when:
+    - regListx64 | regex_search(item.softwareName)
+    - not regListx64 | regex_search(item.softwareVersion)
+  loop: "{{ apps }}"
+...
