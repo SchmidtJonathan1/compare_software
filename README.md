@@ -1,4 +1,4 @@
 # compare_software
 Compare software with powershell
 
-Thanks Flavio ;)
+Thanks for the support guys ;)
