@@ -7,15 +7,15 @@ apps:
   - softwareName: KeePass
     softwareVersion: "2.49"
     softwareParam: /VERYSILENT
-    folderPath: C:\tmp
-  - softwareName: Firefox
-    softwareVersion: "92.0"
+    installPath: C:\tmp\KeePass-2.49-Setup.exe
+  - softwareName: MobaXterm
+    softwareVersion: "21.4.0.4736"
     softwareParam: /qn
-    folderPath: c:\tmp\
+    installPath: 
   - softwareName: draw.io
     softwareVersion: "15.2.7"
     softwareParam: /SILENT
-    folderPath: c:\tmp\
+    installPath: 
 
 # ./roles/test/tasks/base.yml
 ---
@@ -42,16 +42,18 @@ apps:
   when: item.properties.DisplayName.value is defined
   loop: "{{ checkVerx64.results }} "
 
+- name: copy file
+  ansible.windows.win_copy:
+    src: software
+    dest: C:\tmp\
+
 ## Install software
 - name: Install software x64
   debug:
-    msg: "Test output x64"
+    msg: "Work Twerk x64"
 #  ansible.windows.win_package:
-#    path: C:\tmp\KeePass-2.49-Setup.exe
-#    product_id: KeePassPasswordSafe2_is1
-#    arguments: /VERYSILENT
-#    creates_path: "C:\\Program Files\\KeePass Password Safe 2\\KeePass.exe"
-#    creates_version: "2.49"
+#    path: "{{ item.installPath }}" 
+#    arguments: "{{ item.softwareParam }}"
 #    state: present
   when:
     - regListx64 | regex_search(item.softwareName)
