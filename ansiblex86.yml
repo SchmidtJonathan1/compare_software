@@ -1,6 +1,8 @@
 ###### WIP (install software) ######
 
 ## Install windows software with ansible x86
+
+# Example for var data
 # ./roles/test/vars/vars.yml
 ---
 apps:
@@ -11,13 +13,21 @@ apps:
   - softwareName: MobaXterm
     softwareVersion: "21.4.0.4736"
     softwareParam: /qn
-    installPath: 
+    installPath: C:\tmp\MobaXterm_installer_21.3.msi
   - softwareName: draw.io
-    softwareVersion: "15.2.7"
-    softwareParam: /SILENT
-    installPath: 
+    softwareVersion: "15.4.0"
+    softwareParam: /S
+    installPath: C:\tmp\draw.io-15.4.0-windows-installer.exe
 
-# ./roles/test/tasks/base.yml
+#./roles/test/tasks/copy.yml
+---
+- name: copy file
+  win_copy:
+    src: software
+    dest: C:\tmp\
+...
+
+# ./roles/test/tasks/basex86.yml
 ---
 ## Include vars from role path
 - name: includ vars
@@ -25,12 +35,12 @@ apps:
 
 ## Get all PSChildName names from registry
 - name: reg displayname x86
-  ansible.windows.win_shell: (Get-ItemProperty -Path HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*).PSChildName
+  win_shell: (Get-ItemProperty -Path HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\*).PSChildName
   register: checkNamex86
 
 ## Loop registry with pschildnames
 - name: reg displayversion x86
-  ansible.windows.win_reg_stat: 
+  win_reg_stat:
     path: HKLM:\SOFTWARE\WOW6432Node\Microsoft\Windows\CurrentVersion\Uninstall\{{ item }}
   loop: "{{ checkNamex86.stdout_lines }}"
   register: checkVerx86
@@ -38,25 +48,19 @@ apps:
 ## Set facts for name and version
 - name: msg x86 DisplayName and Version
   set_fact:
-    regListx86: "{{ regListx86| default ([]) + [item.properties.DisplayName.value + ' ' + item.properties.DisplayVersion.value] }}"
+    regListx86: "{{ regListx86| default([]) + [item.properties.DisplayName.value + ' ' + item.properties.DisplayVersion.value] }}"
   when: item.properties.DisplayName.value is defined
   loop: "{{ checkVerx86.results }} "
 
-- name: copy file
-  ansible.windows.win_copy:
-    src: software
-    dest: C:\tmp\
-
 ## Install software x86
 - name: Install software x86
-  debug:
-    msg: "Work"
-#  ansible.windows.win_package:
-#    path: "{{ item.installPath }}"
-#    arguments: "{{ item.softwareParam }}"
-#    state: present
+  win_package:
+    path: "{{ item.installPath }}"
+    product_id: " "
+    arguments: "{{ item.softwareParam }}"
+    state: present
   when:
-    - regListx86 | regex_search(item.softwareName)
-    - not regListx86 | regex_search(item.softwareVersion)
+    - regListx86 is regex(item.softwareName)
+    - regListx86 is not regex(item.softwareVersion)
   loop: "{{ apps }}"
 ...
